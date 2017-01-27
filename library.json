@@ -1,0 +1,16 @@
+{
+    "name": "openag_bpm180",
+    "keywords": "openag, bpm180",
+    "description": "OpenAg driver for the BPM180 barometer",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/webbhm/openag_bpm180.git"
+    },
+    "frameworks": "arduino",
+    "platforms": "*",
+    "dependencies": [
+        {
+            "name": "openag_module"
+        }
+    ]
+}

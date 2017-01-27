@@ -46,11 +46,16 @@ const unsigned char OSS = 0;
 class Barometer : public Module  //note: inheritance from OpenAg module
 {
     public:
+    Barometer();
+    Barometer(int bpm180_address);
+    void set_Address(int bpm180_address);
     void begin();
     void update();
-    bool getTemp(std_msgs::Float32 &msg);	
-    bool getPressure(std_msgs::Float32 &msg);	
-    bool getAltitude(std_msgs::Float32 &msg);	
+    bool get_Temp(std_msgs::Float32 &msg);	
+    bool get_Pressure(std_msgs::Float32 &msg);	
+    bool get_Altitude(std_msgs::Float32 &msg);
+
+    private:	
     long PressureCompensate;
     float calcTemperature(unsigned short ut);
     long calcPressure(unsigned long up);
@@ -58,7 +63,7 @@ class Barometer : public Module  //note: inheritance from OpenAg module
     unsigned short bmp085ReadUT(void);
     unsigned long bmp085ReadUP(void);
 
-    private:
+    unsigned short _bpm180_address;
 
     short ac1;
     short ac2;

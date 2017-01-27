@@ -34,6 +34,19 @@
 #include <Wire.h>
 #include <Arduino.h>
 
+Barometer::Barometer(){
+ _bpm180_address = 119;
+}
+
+Barometer::Barometer(int bpm180_address){
+  _bpm180_address = bpm180_address;
+}
+
+void Barometer::set_Address(int bpm180_address){
+ _bpm180_address = bpm180_address;
+}
+
+
 void Barometer::begin() {
     Wire.begin();
     Serial.print("Temperaturet: ");
@@ -56,6 +69,7 @@ void Barometer::begin() {
     _send_altitude = false;		
     _time_of_last_reading = 0;
 }
+
 //update data if old and set flags if good data
 void Barometer::update() {
    if (millis() - _time_of_last_reading > _min_update_interval) {
@@ -77,20 +91,20 @@ void Barometer::update() {
 	
 }
 //std ROS message packaging the data
-bool Barometer::getTemp(std_msgs::Float32 &msg){
+bool Barometer::get_Temp(std_msgs::Float32 &msg){
    msg.data = _temp;
    bool res = _send_temperature;
   _send_temperature = false;
   return res;
 }
 
-bool Barometer::getPressure(std_msgs::Float32 &msg){
+bool Barometer::get_Pressure(std_msgs::Float32 &msg){
    msg.data = _pressure;
    bool res = _send_pressure;
   _send_pressure = false;
   return res;
 }
-bool Barometer::getAltitude(std_msgs::Float32 &msg){
+bool Barometer::get_Altitude(std_msgs::Float32 &msg){
    msg.data = _altitude;
    bool res = _send_altitude;
   _send_altitude = false;
@@ -102,11 +116,11 @@ char Barometer::bmp085Read(unsigned char address)
 {
     //Wire.begin();
     unsigned char data;
-    Wire.beginTransmission(BMP085_ADDRESS);
+    Wire.beginTransmission((unsigned char)_bpm180_address);
     Wire.write(address);
     Wire.endTransmission();
 
-    Wire.requestFrom(BMP085_ADDRESS, 1);
+    Wire.requestFrom(_bpm180_address, 1);
     while(!Wire.available());
     return Wire.read();
 }
@@ -117,10 +131,10 @@ char Barometer::bmp085Read(unsigned char address)
 short Barometer::bmp085ReadInt(unsigned char address)
 {
     unsigned char msb, lsb;
-    Wire.beginTransmission(BMP085_ADDRESS);
+    Wire.beginTransmission((unsigned char)_bpm180_address);
     Wire.write(address);
     Wire.endTransmission();
-    Wire.requestFrom(BMP085_ADDRESS, 2);
+    Wire.requestFrom(_bpm180_address, 2);
     while(Wire.available()<2);
     msb = Wire.read();
     lsb = Wire.read();
@@ -131,7 +145,7 @@ short Barometer::bmp085ReadInt(unsigned char address)
 unsigned short Barometer::bmp085ReadUT()
 {
     unsigned short ut;
-    Wire.beginTransmission(BMP085_ADDRESS);
+    Wire.beginTransmission((unsigned char)_bpm180_address);
     Wire.write(0xF4);
     Wire.write(0x2E);
     Wire.endTransmission();
@@ -144,7 +158,7 @@ unsigned long Barometer::bmp085ReadUP()
 {
     unsigned char msb, lsb, xlsb;
     unsigned long up = 0;
-    Wire.beginTransmission(BMP085_ADDRESS);
+    Wire.beginTransmission((unsigned char)_bpm180_address);
     Wire.write(0xF4);
     Wire.write(0x34 + (OSS<<6));
     Wire.endTransmission();
