@@ -1,23 +1,20 @@
 {
-  "environment": [
-    {
-      "_id": "environment_1",
-      "name": "Environment 1"
-    }
-  ],
   "firmware_module":[
    {
     "type": "bpm180",
     "environment": "environment_1",
-    "_id": "bpm180_1"
-   }
+    "_id": "bpm180_1",
+    "arguments":[
+       119
+     ]
+     }
    ],
   "firmware_module_type": [
     {
       "_id": "bpm180",
       "repository": {
         "type": "git",
-        "url": "https://github.com/webbhm/openag_bmp180.git"
+        "url": "https://github.com/webbhm/openag_bpm180.git"
       },
       "header_file": "openag_bpm180.h",
       "class_name": "Barometer",
@@ -28,7 +25,7 @@
         "type": "int",
         "default": 119
         }
-        ],
+      ],
       "outputs": {
         "Pressure": {"type": "std_msgs/Float32"},
         "Temp": {"type": "std_msgs/Float32"},
