@@ -44,11 +44,11 @@ float atm;
 float altitude;
 bool status;
 std_msgs::Float32 msg;
-Barometer myBarometer;
+Barometer myBarometer(119);
 
 void setup(){
   Serial.begin(9600);
-  myBarometer.set_Address(119);
+//  myBarometer.set_Address(119);
   myBarometer.begin();
 }
 
