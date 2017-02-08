@@ -4,12 +4,7 @@
     "type": "bpm180",
     "environment": "environment_1",
     "_id": "bpm180_1",
-    "arguments":[119],
-      "outputs": {
-        "bpm180_1_Pressure": {"variable": "Pressure"},
-        "bpm180_1_Temp": {"variable": "Temp"},
-        "bpm180_1_Altitude": {"variable": "Altitude"}
-      }
+    "arguments":[119]
      }
    ],
   "firmware_module_type": [
